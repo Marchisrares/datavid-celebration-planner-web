@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Create Personal Message</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="form">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Tone</mat-label>
+      <mat-select formControlName="tone">
+        <mat-option value="friendly">Friendly</mat-option>
+        <mat-option value="formal">Formal</mat-option>
+        <mat-option value="fun">Fun</mat-option>
+        <mat-option value="short">Short</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Locale (optional)</mat-label>
+      <input matInput placeholder="en / ro / it ..." formControlName="locale" />
+    </mat-form-field>
+
+    <div class="checkboxes">
+      <mat-checkbox formControlName="sendEmail">Send by email</mat-checkbox>
+      <mat-checkbox formControlName="dryRunEmail">Dry run (log only)</mat-checkbox>
+    </div>
+  </form>
+
+  @if (loading()) {
+  <div class="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Generating message...</p>
+  </div>
+  } @if (resp()) {
+  <div class="result">
+    <h3>Message</h3>
+    <pre>{{ resp()!.message }}</pre>
+
+    <h3>Explanation</h3>
+    <div class="mono">
+      <p><strong>Model:</strong> {{ resp()!.explanation.model }}</p>
+      <p><strong>Params:</strong> {{ resp()!.explanation.params | json }}</p>
+      <p><strong>Method:</strong> {{ resp()!.explanation.promptOrMethod }}</p>
+      <p><strong>Rationale:</strong> {{ resp()!.explanation.rationale }}</p>
+    </div>
+
+    @if (resp()!.sent) {
+    <div class="sent-info">
+      <strong>Email:</strong> {{ resp()!.sent!.provider }} (dryRun: {{ resp()!.sent!.dryRun }})
+    </div>
+    }
+  </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="close()">Close</button>
+  <button mat-raised-button color="primary" (click)="generate()" [disabled]="loading()">
+    Generate
+  </button>
+</mat-dialog-actions>

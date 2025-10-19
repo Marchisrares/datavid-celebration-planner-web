@@ -1,0 +1,22 @@
+<div class="header">
+  <h2>Birthdays Today</h2>
+</div>
+
+<div class="cards">
+  @for (b of rows(); track b.id) {
+  <mat-card class="card highlight">
+    <mat-card-header>
+      <mat-card-title>{{ b.firstName }} {{ b.lastName }} ({{ b.turnsAge }})</mat-card-title>
+      <mat-card-subtitle>🎉 Happy Birthday! • {{ b.tz }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Born {{ b.birthDate }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="openAi(b.id)">Generate Message</button>
+    </mat-card-actions>
+  </mat-card>
+  } @empty {
+  <p class="empty">No birthdays today.</p>
+  }
+</div>

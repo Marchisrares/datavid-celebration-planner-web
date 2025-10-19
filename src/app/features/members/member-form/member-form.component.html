@@ -1,0 +1,72 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="form">
+  <h2>{{ id ? 'Edit' : 'Add' }} Member</h2>
+
+  <div class="grid">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" required />
+      @if (form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" required />
+      @if (form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Birth date</mat-label>
+      <input matInput type="date" formControlName="birthDate" required />
+      @if (form.get('birthDate')?.hasError('underage')) {
+      <mat-error>Member must be at least 18</mat-error>
+      } @else if (form.get('birthDate')?.invalid && form.get('birthDate')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <input matInput formControlName="country" required />
+      @if (form.get('country')?.invalid && form.get('country')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" required />
+      @if (form.get('city')?.invalid && form.get('city')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Timezone (IANA)</mat-label>
+      <input matInput formControlName="tz" required placeholder="Europe/Bucharest" />
+      @if (form.get('tz')?.invalid && form.get('tz')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required />
+      @if (form.get('email')?.hasError('email')) {
+      <mat-error>Invalid email</mat-error>
+      } @else if (form.get('email')?.invalid && form.get('email')?.touched) {
+      <mat-error>Required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="actions">
+    <button mat-stroked-button type="button" routerLink="/members">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      Save
+    </button>
+  </div>
+</form>
